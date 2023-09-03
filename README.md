@@ -3,7 +3,7 @@
 This is a buildroot configuration for emulating a system with ARM Cortex A7 core on the [virt platform](https://www.qemu.org/docs/master/system/arm/virt.html). The setup is designed as a test runner or debug system and goes beyond the minimal buildroot configuration. This includes
 
 * ssh access as `root`
-* ...
+* gbd setup (planned)
 
 ## Usage
 Clone the buildroot repository
