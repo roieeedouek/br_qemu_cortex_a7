@@ -1,0 +1,2 @@
+name: qemu_cortex_a7
+desc: QEMU compatible system with ARM Cortex A7 CPU
