@@ -14,6 +14,10 @@ and this repository so they sit on the same level.
 ```
 git clone https://github.com/dlips/br_qemu_cortex_a7.git
 ```
+Last you need to copy the arm-rockchip830-linux compiler to the user toolchains folder
+```
+cp -r <luckfox_pico>/tools/linux/toolchain/ ~/toolchains
+```
 Then switch to the buildroot directory with `cd buildroot` and create a new defconfig using `br_qemu_cortex_a7` as `BR2_EXTERNAL` ([see documentation](https://buildroot.org/downloads/manual/manual.html#outside-br-custom))
 ```
 make BR2_EXTERNAL=../br_qemu_cortex_a7 O=../my_br_build qemu_cortex_a7_defconfig
@@ -39,6 +43,27 @@ make O=../my_br_build
         -kernel zImage \
         -drive file=rootfs.ext2,if=none,format=raw,id=hd0 \
         -device virtio-blk-device,drive=hd0 \
+        -nographic \
+        -no-reboot \
+        -append "rootwait root=/dev/vda console=ttyAMA0" \
+        -device virtio-net-device,netdev=net0 \
+        -netdev user,id=net0,hostfwd=tcp::5555-:22
+    ```
+
+
+### QEMU
+
+* To lunch luckfox filesystem copy `rootfs.img` to `images` folder and add the image as a drive
+    ``` 
+    qemu-system-arm \
+        -M virt \
+        -cpu cortex-a7 \
+        -m 256 \
+        -kernel zImage \
+        -drive file=rootfs.ext2,if=none,format=raw,id=hd0 \
+        -device virtio-blk-device,drive=hd0 \
+        -drive file=rootfs.img,if=none,format=raw,id=hd1 \
+        -device virtio-blk-device,drive=hd1 \
         -nographic \
         -no-reboot \
         -append "rootwait root=/dev/vda console=ttyAMA0" \
